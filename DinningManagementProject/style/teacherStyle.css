@@ -1,0 +1,32 @@
+﻿body {
+}
+
+.mymenu{
+    
+}
+
+.mymenu ul{
+    background-color:#21223E;
+    
+}
+
+.mymenu ul li{
+    font-size:18px;
+    border-right:1px solid #4800ff;
+    position:relative;
+}
+.mymenu ul li a{
+
+}
+.mymenu ul li a:hover {background-color :#25395A;}
+
+#lblUname {position:center}
+
+/*first droupdown menu*/
+.mymenu ul li ul{position:absolute; left:-999px;}
+.mymenu ul li:hover ul{left:0px;}
+.mymenu ul li ul{background-color:#8ED6EC; list-style:none;}
+.mymenu ul li ul li{float:none; width:130px; position:relative;}
+.mymenu ul li ul li a{ color:black; display:block; text-decoration:none; padding:5px 10px;}
+.mymenu ul li ul li a:hover{background-color:#0893F4;}
+

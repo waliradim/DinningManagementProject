@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DinningManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_dalyCost">
+          <Key>
+            <PropertyRef Name="C_date" />
+          </Key>
+          <Property Name="C_date" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cost" Type="int" Nullable="false" />
+          <Property Name="meal" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_MealInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="E_id" Type="int" Nullable="false" />
+          <Property Name="m_date" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="meal" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Uaccount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="E_id" Type="int" Nullable="false" />
+          <Property Name="account" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_userInfo">
+          <Key>
+            <PropertyRef Name="E_id" />
+          </Key>
+          <Property Name="E_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fname" Type="varchar" MaxLength="50" />
+          <Property Name="lname" Type="varchar" MaxLength="50" />
+          <Property Name="designation" Type="varchar" MaxLength="50" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_MealInfo_tbl_userInfo">
+          <End Role="tbl_userInfo" Type="Self.tbl_userInfo" Multiplicity="1" />
+          <End Role="tbl_MealInfo" Type="Self.tbl_MealInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_userInfo">
+              <PropertyRef Name="E_id" />
+            </Principal>
+            <Dependent Role="tbl_MealInfo">
+              <PropertyRef Name="E_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Uaccount_tbl_userInfo">
+          <End Role="tbl_userInfo" Type="Self.tbl_userInfo" Multiplicity="1" />
+          <End Role="tbl_Uaccount" Type="Self.tbl_Uaccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_userInfo">
+              <PropertyRef Name="E_id" />
+            </Principal>
+            <Dependent Role="tbl_Uaccount">
+              <PropertyRef Name="E_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="SP_stopNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ddate" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="DinningManagementModelStoreContainer">
+          <EntitySet Name="tbl_dalyCost" EntityType="Self.tbl_dalyCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_MealInfo" EntityType="Self.tbl_MealInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Uaccount" EntityType="Self.tbl_Uaccount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_userInfo" EntityType="Self.tbl_userInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_MealInfo_tbl_userInfo" Association="Self.FK_tbl_MealInfo_tbl_userInfo">
+            <End Role="tbl_userInfo" EntitySet="tbl_userInfo" />
+            <End Role="tbl_MealInfo" EntitySet="tbl_MealInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Uaccount_tbl_userInfo" Association="Self.FK_tbl_Uaccount_tbl_userInfo">
+            <End Role="tbl_userInfo" EntitySet="tbl_userInfo" />
+            <End Role="tbl_Uaccount" EntitySet="tbl_Uaccount" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DinningManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_dalyCost">
+          <Key>
+            <PropertyRef Name="C_date" />
+          </Key>
+          <Property Name="C_date" Type="String" Nullable="false" />
+          <Property Name="cost" Type="Int32" Nullable="false" />
+          <Property Name="meal" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_MealInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="E_id" Type="Int32" Nullable="false" />
+          <Property Name="m_date" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="meal" Type="Int32" />
+          <NavigationProperty Name="tbl_userInfo" Relationship="Self.FK_tbl_MealInfo_tbl_userInfo" FromRole="tbl_MealInfo" ToRole="tbl_userInfo" />
+        </EntityType>
+        <EntityType Name="tbl_Uaccount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="E_id" Type="Int32" Nullable="false" />
+          <Property Name="account" Type="Int32" />
+          <NavigationProperty Name="tbl_userInfo" Relationship="Self.FK_tbl_Uaccount_tbl_userInfo" FromRole="tbl_Uaccount" ToRole="tbl_userInfo" />
+        </EntityType>
+        <EntityType Name="tbl_userInfo">
+          <Key>
+            <PropertyRef Name="E_id" />
+          </Key>
+          <Property Name="E_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="designation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbl_MealInfo" Relationship="Self.FK_tbl_MealInfo_tbl_userInfo" FromRole="tbl_userInfo" ToRole="tbl_MealInfo" />
+          <NavigationProperty Name="tbl_Uaccount" Relationship="Self.FK_tbl_Uaccount_tbl_userInfo" FromRole="tbl_userInfo" ToRole="tbl_Uaccount" />
+        </EntityType>
+        <Association Name="FK_tbl_MealInfo_tbl_userInfo">
+          <End Role="tbl_userInfo" Type="Self.tbl_userInfo" Multiplicity="1" />
+          <End Role="tbl_MealInfo" Type="Self.tbl_MealInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_userInfo">
+              <PropertyRef Name="E_id" />
+            </Principal>
+            <Dependent Role="tbl_MealInfo">
+              <PropertyRef Name="E_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Uaccount_tbl_userInfo">
+          <End Role="tbl_userInfo" Type="Self.tbl_userInfo" Multiplicity="1" />
+          <End Role="tbl_Uaccount" Type="Self.tbl_Uaccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_userInfo">
+              <PropertyRef Name="E_id" />
+            </Principal>
+            <Dependent Role="tbl_Uaccount">
+              <PropertyRef Name="E_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DinningManagementEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_dalyCost" EntityType="Self.tbl_dalyCost" />
+          <EntitySet Name="tbl_MealInfo" EntityType="Self.tbl_MealInfo" />
+          <EntitySet Name="tbl_Uaccount" EntityType="Self.tbl_Uaccount" />
+          <EntitySet Name="tbl_userInfo" EntityType="Self.tbl_userInfo" />
+          <AssociationSet Name="FK_tbl_MealInfo_tbl_userInfo" Association="Self.FK_tbl_MealInfo_tbl_userInfo">
+            <End Role="tbl_userInfo" EntitySet="tbl_userInfo" />
+            <End Role="tbl_MealInfo" EntitySet="tbl_MealInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Uaccount_tbl_userInfo" Association="Self.FK_tbl_Uaccount_tbl_userInfo">
+            <End Role="tbl_userInfo" EntitySet="tbl_userInfo" />
+            <End Role="tbl_Uaccount" EntitySet="tbl_Uaccount" />
+          </AssociationSet>
+          <FunctionImport Name="SP_stopNum" ReturnType="Collection(DinningManagementModel.SP_stopNum_Result2)">
+          <Parameter Name="ddate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="SP_StopUser_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="E_id" Nullable="false" />
+          <Property Type="DateTime" Name="m_date" Nullable="false" />
+          <Property Type="Int32" Name="meal" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_NumberStopMeal_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_returnData_Result">
+          <Property Type="Int32" Name="Member" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_stopNum_Result">
+          <Property Type="Int32" Name="Member" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_stopNum_Result1">
+          <Property Type="Int32" Name="Member" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SP_stopNum_Result2">
+          <Property Type="Int32" Name="Member" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DinningManagementModelStoreContainer" CdmEntityContainer="DinningManagementEntities2">
+          <EntitySetMapping Name="tbl_dalyCost">
+            <EntityTypeMapping TypeName="DinningManagementModel.tbl_dalyCost">
+              <MappingFragment StoreEntitySet="tbl_dalyCost">
+                <ScalarProperty Name="C_date" ColumnName="C_date" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+                <ScalarProperty Name="meal" ColumnName="meal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_MealInfo">
+            <EntityTypeMapping TypeName="DinningManagementModel.tbl_MealInfo">
+              <MappingFragment StoreEntitySet="tbl_MealInfo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="E_id" ColumnName="E_id" />
+                <ScalarProperty Name="m_date" ColumnName="m_date" />
+                <ScalarProperty Name="meal" ColumnName="meal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Uaccount">
+            <EntityTypeMapping TypeName="DinningManagementModel.tbl_Uaccount">
+              <MappingFragment StoreEntitySet="tbl_Uaccount">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="E_id" ColumnName="E_id" />
+                <ScalarProperty Name="account" ColumnName="account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_userInfo">
+            <EntityTypeMapping TypeName="DinningManagementModel.tbl_userInfo">
+              <MappingFragment StoreEntitySet="tbl_userInfo">
+                <ScalarProperty Name="E_id" ColumnName="E_id" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="designation" ColumnName="designation" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_stopNum" FunctionName="DinningManagementModel.Store.SP_stopNum" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DinningManagementModel.SP_stopNum_Result2">
+                <ScalarProperty Name="Member" ColumnName="Member" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
